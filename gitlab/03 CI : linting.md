@@ -6,7 +6,7 @@ Le linting vérifie que votre code respecte les standards de l'équipe avant mê
 
 Chaque job peut tourner dans une image Docker différente. C'est ce qui rend GitLab CI totalement agnostique du langage :
 
-```text
+```yaml
 stages:
   - lint
 

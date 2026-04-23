@@ -12,7 +12,7 @@ Avant de déployer quoi que ce soit, il faut comprendre comment GitLab lit et ex
 
 Commençons par le plus simple possible :
 
-```text
+```yaml
 stages:
   - hello
 
@@ -39,3 +39,5 @@ hello_world:
 >[!tip]  Point à noter :
 >
 > Un job = une série de commandes shell. Tout ce que vous pouvez taper dans un terminal, vous pouvez le mettre dans un job.
+>
+> Avec gitlab, on fait souvent tout dans un seul fichier. Il est toutefois possible d'éclater le code en sous-parties, dans des fichiers séparés (test.yml, deploy.yml, ...). [Plus d'infos ici](https://blog.stephane-robert.info/docs/pipeline-cicd/gitlab/labs/lab-14-templates-include/).

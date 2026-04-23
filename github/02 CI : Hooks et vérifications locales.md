@@ -1,6 +1,6 @@
 # Étape 2 — CI : hooks Git et vérifications locales
 
-La CI ne commence pas dans GitLab — elle commence sur votre machine, avant même le push.
+La CI ne commence pas dans GitHub — elle commence sur votre machine, avant même le push.
 
 ## Les hooks Git natifs
 
@@ -22,7 +22,7 @@ fi
 
 - Testez avec un mauvais commit : `git commit -m "modif truc"` → il sera bloqué
 
-- Testez avec un bon commit : `git commit -m "feat(auth): ajout de la connexion SSO"` → il passe
+    Testez avec un bon commit : `git commit -m "feat(auth): ajout de la connexion SSO"` → il passe
 
 ## Husky (pour les projets JS/TS)
 
@@ -32,27 +32,26 @@ fi
 npm install --save-dev husky
 npx husky init
 ```
+
 Les hooks sont alors dans `.husky/` et commités avec le projet — tous les développeurs de l'équipe les ont automatiquement.
-Vérification du nom de branche dans GitLab.
 
-En complément des hooks locaux, on peut vérifier le nom de branche côté pipeline :
+## Vérification du nom de branche dans GitHub Actions
 
-```yaml
+```yml
+jobs:
 check_branch_name:
-stage: verify
-script:
-- |
-  if ! echo "$CI_COMMIT_BRANCH" | grep -qE "^(main|develop|feature/.+|fix/.+|release/.+)$"; then
-    echo "❌ Nom de branche invalide : $CI_COMMIT_BRANCH"
-    echo "👉 Format attendu : feature/ma-fonctionnalite, fix/mon-bug, ..."
-    exit 1
-  fi
-rules:
-- if: '$CI_COMMIT_BRANCH != "main" && $CI_COMMIT_BRANCH != "develop"'
+runs-on: ubuntu-latest
+steps:
+  - name: Vérifier le nom de branche
+    run: |
+      if ! echo "${{ github.ref_name }}" | grep -qE "^(main|develop|feature/.+|fix/.+|release/.+)$"; then
+        echo "❌ Nom de branche invalide : ${{ github.ref_name }}"
+        echo "👉 Format attendu : feature/ma-fonctionnalite, fix/mon-bug, ..."
+        exit 1
+      fi
 ```
-
 J'ai fait une série d'articles à ce sujet qui sont plus complets sur mon site : https://unsiteavous.fr/astuces/ et ciblez husky.
 
->[!tip]  Point à noter :
+>[!Tip] Point à noter :
 >
-> `$CI_COMMIT_BRANCH` est une variable prédéfinie par GitLab. Il en existe des dizaines (`$CI_COMMIT_SHA`, `$CI_PROJECT_NAME`, `$CI_PIPELINE_URL`...). Consultez la documentation officielle.
+> Chez GitLab, on utilisait `$CI_COMMIT_BRANCH`. Chez GitHub, la syntaxe est `${{ github.ref_name }}`. C'est le contexte GitHub — l'équivalent des variables prédéfinies GitLab. Consultez la (documentation officielle)[https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/accessing-contextual-information-about-workflow-runs].

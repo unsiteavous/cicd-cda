@@ -13,7 +13,7 @@ Le build transforme votre code source en quelque chose de déployable.
 
 ### Le job de build
 
-```text
+```yaml
 build:
   stage: build
   script:

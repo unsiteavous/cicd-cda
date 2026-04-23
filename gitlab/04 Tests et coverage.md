@@ -4,7 +4,7 @@ Les tests automatisés sont le cœur de la CI. GitLab peut afficher la couvertur
 
 ## Lancer les tests
 
-```text
+```yaml
 test:
   stage: test
   script:
@@ -25,7 +25,7 @@ dotnet test --collect:"XPlat Code Coverage"
 
 ## Afficher la coverage dans GitLab
 
-```text
+```yaml
 test:
   stage: test
   script:

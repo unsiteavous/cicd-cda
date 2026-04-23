@@ -2,7 +2,7 @@
 
 Avant chaque déploiement sur preprod et prod, on sauvegarde tout. C'est ce qui rend le rollback possible.
 
-##Le script `deploy_with_backup.sh` côté serveur
+## Le script `deploy_with_backup.sh` côté serveur
 
 Créez ce fichier dans `/scripts/deploy_with_backup.sh` sur vos serveurs preprod et prod (comme pour les autres, il est possible de tout mettre dans gitlab-ci):
 

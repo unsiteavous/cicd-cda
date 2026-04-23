@@ -4,7 +4,7 @@ GitLab intègre nativement des outils de sécurité, activables en trois lignes.
 
 ## Les templates GitLab Security
 
-```text
+```yaml
 include:
 - template: Security/SAST.gitlab-ci.yml           # analyse du code source
 - template: Security/Dependency-Scanning.gitlab-ci.yml  # dépendances vulnérables
