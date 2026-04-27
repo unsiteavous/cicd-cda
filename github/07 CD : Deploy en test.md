@@ -101,7 +101,8 @@ jobs:
         run: |
           ssh test-server "
             cd /var/www/monapp &&
-            git pull origin ${{ github.ref_name }} &&
+            git fetch origin &&
+            git reset --hard origin/${{ github.ref_name }} &&
             ./scripts/post_deploy.sh
           "
 ```

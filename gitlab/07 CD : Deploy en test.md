@@ -83,7 +83,7 @@ Allez dans Settings > CI/CD > Variables et ajoutez :
 | Variable	| Valeur	| Type	| Protected	| Masked |
 |--|--|--|--|--|
 |SSH_PRIVATE_KEY	|Résultat du base64 de la clé privée	|Variable	|✅	|✅|
-|SSH_CONFIG	|Contenu du fichier config	|Fichier|	✅|	✅|
+|SSH_CONFIG	|Contenu du fichier config	|Fichier|	✅|	❌|
 |IP_SERVER	|IP ou domaine du serveur (pour ssh-keyscan)	|Variable|	✅	|❌|
 |DB_USER|	Utilisateur BDD	|Variable	|✅	|✅|
 |DB_PASS|	Mot de passe BDD	|Variable	|✅	|✅|
@@ -142,7 +142,8 @@ deploy_test:
     - | 
       ssh test-server "
         cd /var/www/monapp &&
-        git pull origin $CI_COMMIT_BRANCH &&
+        git fetch origin &&
+        git reset --hard origin/$CI_COMMIT_BRANCH &&
         ./scripts/post_deploy.sh
       "
 ```

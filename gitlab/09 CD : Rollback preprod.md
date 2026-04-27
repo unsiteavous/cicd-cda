@@ -24,13 +24,14 @@ echo "⏪ Rollback depuis $BACKUP_DIR"
 mysql -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$BACKUP_DIR/db.sql"
 # Pour PostgreSQL : psql "$DB_NAME" < "$BACKUP_DIR/db.sql"
 
-# 2. Restaurer les fichiers uploadés
+# 2. Restaurer le code
+rm -rf "$APP_DIR"
+cp -r "$BACKUP_DIR/src" "$APP_DIR"
+
+# 3. Restaurer les fichiers uploadés
 rm -rf "$APP_DIR/uploads"
 cp -r "$BACKUP_DIR/uploads" "$APP_DIR/uploads"
 
-# 3. Restaurer le code
-rm -rf "$APP_DIR"
-cp -r "$BACKUP_DIR/code" "$APP_DIR"
 
 ./scripts/post_deploy.sh
 echo "✅ Rollback terminé avec succès."
@@ -43,7 +44,7 @@ rollback_preprod:
   stage: rollback_preprod
   environment:
     name: preprod
-  when: manual
+  when: on_failure
   only:
     - main
   before_script:

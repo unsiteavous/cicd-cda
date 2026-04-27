@@ -29,14 +29,18 @@ mysqldump -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" > "$BACKUP_DIR/db.sql"
 # 2. Sauvegarde des fichiers uploadés par les utilisateurs
 cp -r "$APP_DIR/uploads" "$BACKUP_DIR/uploads"
 
-# 3. Déploiement du nouveau code
+# 3. Sauvegarde de votre base de code -> À COMPLÉTER
+cp -r "$APP_DIR/src" "$BACKUP_DIR/src"
+
+# 4. Déploiement du nouveau code
 cd "$APP_DIR"
 git fetch origin
 git checkout main
-git pull origin main
+git fetch origin;
+git reset --hard origin/main;
 ./scripts/post_deploy.sh
 
-# 4. Mémoriser le chemin de sauvegarde pour le rollback
+# 5. Mémoriser le chemin de sauvegarde pour le rollback
 echo "$BACKUP_DIR" > /tmp/last_backup_path
 echo "✅ Déploiement terminé. Sauvegarde : $BACKUP_DIR"
 ```
